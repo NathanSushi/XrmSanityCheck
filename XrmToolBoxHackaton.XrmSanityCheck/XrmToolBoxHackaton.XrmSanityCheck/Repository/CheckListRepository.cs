@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 using Newtonsoft.Json;
@@ -16,6 +17,8 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
         private IOrganizationService Service;
         private string prefix = "xsc";
         private string webResourceName = "xsc_xrmsanitycheck.json";
+        private Entity webResourceEntity;
+        private List<CheckList> checkLists;
 
         public CheckListRepository(IOrganizationService service)
         {
@@ -24,18 +27,17 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
 
         public IEnumerable<CheckList> GetCheckLists()
         {
-            Entity webresource = getWebResource();
-            var content = Convert.FromBase64String(webresource.GetAttributeValue<string>("content"));
-            return JsonConvert.DeserializeObject<List<CheckList>>(Encoding.UTF8.GetString(content));
-            //foreach(CheckList checkList in allCheckLists)
-            //{
-            //    if(!checkList.CheckListItems.Any())
-            //}
+            this.webResourceEntity = getWebResource();
+            var content = Convert.FromBase64String(this.webResourceEntity.GetAttributeValue<string>("content"));
+            this.checkLists = JsonConvert.DeserializeObject<List<CheckList>>(Encoding.UTF8.GetString(content));
+            return checkLists;
         }
 
         public Guid CreateCheckList(CheckList list)
         {
-            throw new NotImplementedException();
+            this.checkLists.Add(list);
+            updateWebResource();
+            return list.Id.Value;
         }
         public void UpdateCheckList(CheckList list)
         {
@@ -53,22 +55,14 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
 
         public void UpdateCheckListItem(CheckListItem item)
         {
-            throw new NotImplementedException();
+            CheckListItem updatedItem = this.checkLists.First(x => x.CheckListItems.Any(y => y.Id == item.Id)).CheckListItems.First(z => z.Id == item.Id);
+            updatedItem = item;
+            updateWebResource();
         }
         public void DeleteCheckListItem(CheckListItem item)
         {
             throw new NotImplementedException();
         }
-
-        ////Encodes the Web Resource File
-        //private string getEncodedFileContents(String pathToFile)
-        //{
-        //    FileStream fs = new FileStream(pathToFile, FileMode.Open, FileAccess.Read);
-        //    byte[] binaryData = new byte[fs.Length];
-        //    long bytesRead = fs.Read(binaryData, 0, (int)fs.Length);
-        //    fs.Close();
-        //    return System.Convert.ToBase64String(binaryData, 0, binaryData.Length);
-        //}
 
         private Entity createWebResource()
         {
@@ -81,15 +75,6 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
                 Name = "My Check List",
                 CheckListItems = new List<CheckListItem>()
             };
-            firstCheckList.CheckListItems.Add(
-                new CheckListItem()
-                {
-                    CheckedOn = DateTime.Today,
-                    Id = Guid.NewGuid(),
-                    IsChecked = false,
-                    Title = "Lookups with no id",
-                    PublicId = Guid.NewGuid()
-                });
             defaultCheckLists.Add(firstCheckList);
 
             var json = JsonConvert.SerializeObject(defaultCheckLists);
@@ -103,6 +88,25 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
             Guid webResourceId = Service.Create(webResource);
             if (webResourceId != null) return webResource;
             else return null;
+        }
+
+        private void updateWebResource()
+        {
+            var json = JsonConvert.SerializeObject(this.checkLists);
+            Entity updatedWebResource = new Entity(this.webResourceEntity.LogicalName) { Id = this.webResourceEntity.Id };
+            updatedWebResource["content"] = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
+            Service.Update(updatedWebResource);
+
+            publishWebResource();
+        }
+
+        private void publishWebResource()
+        {
+            PublishXmlRequest publishRequest = new PublishXmlRequest();
+            string webResctag = "<webresource>" + this.webResourceEntity.Id + "</webresource>";
+            string webrescXml = "<importexportxml><webresources>" + webResctag + "</webresources></importexportxml>";
+            publishRequest.ParameterXml = String.Format(webrescXml);
+            Service.Execute(publishRequest);
         }
 
         private Entity getWebResource()

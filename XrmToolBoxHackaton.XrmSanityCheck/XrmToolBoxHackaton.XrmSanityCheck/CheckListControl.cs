@@ -84,7 +84,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
 
         private void btnLoadLists_Click(object sender, EventArgs args)
         {
-            this.Repository = new FakeCheckListRepository();
+            this.Repository = new CheckListRepository(this.Service);
             LoadCheckLists();
         }
 
