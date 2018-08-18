@@ -61,6 +61,7 @@
             this.label2.Size = new System.Drawing.Size(54, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Template:";
+            this.label2.Visible = false;
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // ddlTemplate
@@ -70,6 +71,7 @@
             this.ddlTemplate.Name = "ddlTemplate";
             this.ddlTemplate.Size = new System.Drawing.Size(227, 21);
             this.ddlTemplate.TabIndex = 4;
+            this.ddlTemplate.Visible = false;
             // 
             // btnCreate
             // 

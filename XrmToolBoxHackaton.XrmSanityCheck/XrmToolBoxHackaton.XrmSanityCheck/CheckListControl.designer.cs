@@ -32,7 +32,6 @@
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.tsbClose = new System.Windows.Forms.ToolStripButton();
             this.tssSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbSample = new System.Windows.Forms.ToolStripButton();
             this.lvwChecklists = new System.Windows.Forms.ListView();
             this.grpCheckLists = new System.Windows.Forms.GroupBox();
             this.btnCreateCheckList = new System.Windows.Forms.Button();
@@ -60,8 +59,7 @@
             this.toolStripMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.toolStripMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsbClose,
-            this.tssSeparator1,
-            this.tsbSample});
+            this.tssSeparator1});
             this.toolStripMenu.Location = new System.Drawing.Point(0, 0);
             this.toolStripMenu.Name = "toolStripMenu";
             this.toolStripMenu.Size = new System.Drawing.Size(559, 25);
@@ -80,14 +78,6 @@
             // 
             this.tssSeparator1.Name = "tssSeparator1";
             this.tssSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // tsbSample
-            // 
-            this.tsbSample.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbSample.Name = "tsbSample";
-            this.tsbSample.Size = new System.Drawing.Size(47, 22);
-            this.tsbSample.Text = "Try me";
-            this.tsbSample.Click += new System.EventHandler(this.tsbSample_Click);
             // 
             // lvwChecklists
             // 
@@ -176,6 +166,7 @@
             this.grdCheckListItems.Name = "grdCheckListItems";
             this.grdCheckListItems.Size = new System.Drawing.Size(290, 314);
             this.grdCheckListItems.TabIndex = 0;
+            this.grdCheckListItems.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdCheckListItems_CellContentClick);
             // 
             // checkListItemBindingSource
             // 
@@ -188,7 +179,7 @@
             // isCheckedDataGridViewCheckBoxColumn
             // 
             this.isCheckedDataGridViewCheckBoxColumn.DataPropertyName = "IsChecked";
-            this.isCheckedDataGridViewCheckBoxColumn.HeaderText = "IsChecked";
+            this.isCheckedDataGridViewCheckBoxColumn.HeaderText = "Completed";
             this.isCheckedDataGridViewCheckBoxColumn.Name = "isCheckedDataGridViewCheckBoxColumn";
             // 
             // titleDataGridViewTextBoxColumn
@@ -216,7 +207,7 @@
             // checkedOnDataGridViewTextBoxColumn
             // 
             this.checkedOnDataGridViewTextBoxColumn.DataPropertyName = "CheckedOn";
-            this.checkedOnDataGridViewTextBoxColumn.HeaderText = "CheckedOn";
+            this.checkedOnDataGridViewTextBoxColumn.HeaderText = "Date Completed";
             this.checkedOnDataGridViewTextBoxColumn.Name = "checkedOnDataGridViewTextBoxColumn";
             this.checkedOnDataGridViewTextBoxColumn.ReadOnly = true;
             // 
@@ -245,7 +236,6 @@
         #endregion
         private System.Windows.Forms.ToolStrip toolStripMenu;
         private System.Windows.Forms.ToolStripButton tsbClose;
-        private System.Windows.Forms.ToolStripButton tsbSample;
         private System.Windows.Forms.ToolStripSeparator tssSeparator1;
         private System.Windows.Forms.ListView lvwChecklists;
         private System.Windows.Forms.GroupBox grpCheckLists;

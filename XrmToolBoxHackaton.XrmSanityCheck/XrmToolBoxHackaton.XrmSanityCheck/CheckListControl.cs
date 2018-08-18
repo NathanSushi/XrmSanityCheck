@@ -51,8 +51,6 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
 
         private void MyPluginControl_Load(object sender, EventArgs e)
         {
-            ShowInfoNotification("This is a notification that can lead to XrmToolBox repository", new Uri("https://github.com/MscrmTools/XrmToolBox"));
-
             // Loads or creates the settings for the plugin
             if (!SettingsManager.Instance.TryLoad(GetType(), out mySettings))
             {
@@ -183,6 +181,17 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
 
         private void GrdCheckListItems_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            if(grdCheckListItems.Columns[e.ColumnIndex].Name == "isCheckedDataGridViewCheckBoxColumn")
+            {
+                if(((CheckListItem) grdCheckListItems.Rows[e.RowIndex].DataBoundItem).IsChecked == true)
+                {
+                    ((CheckListItem)grdCheckListItems.Rows[e.RowIndex].DataBoundItem).CheckedOn = DateTime.Now;
+                }
+                else
+                {
+                    ((CheckListItem)grdCheckListItems.Rows[e.RowIndex].DataBoundItem).CheckedOn = null;
+                }
+            }
             //CheckListItem listItem = grdCheckListItems.Rows[e.RowIndex].DataBoundItem as CheckListItem;
             //this.Repository.UpdateCheckListItem(listItem);
         }
@@ -228,9 +237,33 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
             grdCheckListItems.Refresh();
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs args)
         {
-            this.Repository.UpdateAll(this._checklists);
+            WorkAsync(new WorkAsyncInfo
+            {
+                Message = "Saving...",
+                Work = (w, e) =>
+                {
+                    this.Repository.UpdateAll(this._checklists);
+                },
+                ProgressChanged = e =>
+                {
+                    // it will display "I have found the user id" in this example
+                    //SetWorkingMessage(e.UserState.ToString());
+                },
+                PostWorkCallBack = e =>
+                {
+                },
+                AsyncArgument = null,
+                // Progress information panel size
+                MessageWidth = 340,
+                MessageHeight = 150
+            });
+        }
+
+        private void grdCheckListItems_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
