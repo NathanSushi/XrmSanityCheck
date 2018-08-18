@@ -11,14 +11,15 @@ using XrmToolBox.Extensibility;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk;
 using McTools.Xrm.Connection;
+using XrmToolBoxHackaton.XrmSanityCheck.Repository;
 
 namespace XrmToolBoxHackaton.XrmSanityCheck
 {
-    public partial class MyPluginControl : PluginControlBase
+    public partial class CheckListControl : PluginControlBase
     {
         private Settings mySettings;
 
-        public MyPluginControl()
+        public CheckListControl()
         {
             InitializeComponent();
         }
@@ -103,6 +104,49 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
                 mySettings.LastUsedOrganizationWebappUrl = detail.WebApplicationUrl;
                 LogInfo("Connection has changed to: {0}", detail.WebApplicationUrl);
             }
+        }
+
+        private void btnLoadLists_Click(object sender, EventArgs args)
+        {
+            WorkAsync(new WorkAsyncInfo
+            {
+                Message = "Loading Checklists...",
+                Work = (w, e) =>
+                {
+                    ICheckListRepository repository = new FakeCheckListRepository();
+                    IEnumerable<Models.CheckList> lists = repository.GetCheckLists();
+
+                    //w.ReportProgress(-1, "I have found the user id");
+
+                    e.Result = lists;
+                },
+                ProgressChanged = e =>
+                {
+                    // it will display "I have found the user id" in this example
+                    //SetWorkingMessage(e.UserState.ToString());
+                },
+                PostWorkCallBack = e =>
+                {
+                    IEnumerable<Models.CheckList> checkLists =  e.Result as IEnumerable<Models.CheckList>;
+                    ListViewItem[] items = checkLists.Select(x => new ListViewItem
+                    {
+                        Name = x.Id.ToString(),
+                        Tag = x,
+                        Text = $"{x.Name} ({x.CreatedOn?.ToString("s")})",
+                        Checked = false
+                    }).ToArray();
+
+                    lvwChecklists.View = View.List;
+                    lvwChecklists.Items.AddRange(items);
+                    lvwChecklists.Refresh();
+                    // This code is executed in the main thread
+                    //MessageBox.Show($"You are {(Guid)e.Result}");
+                },
+                AsyncArgument = null,
+                // Progress information panel size
+                MessageWidth = 340,
+                MessageHeight = 150
+            });
         }
     }
 }

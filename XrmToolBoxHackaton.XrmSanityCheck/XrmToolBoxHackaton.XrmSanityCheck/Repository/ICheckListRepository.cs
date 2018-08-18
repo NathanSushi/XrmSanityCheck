@@ -10,11 +10,11 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
     public interface ICheckListRepository
     {
         #region CheckList Members
-        IEnumerable<CheckList> GetCheckLists();
+        IEnumerable<Models.CheckList> GetCheckLists();
 
-        Guid CreateCheckList(CheckList list);
-        void UpdateCheckList(CheckList list);
-        void DeleteCheckList(CheckList list);
+        Guid CreateCheckList(Models.CheckList list);
+        void UpdateCheckList(Models.CheckList list);
+        void DeleteCheckList(Models.CheckList list);
         #endregion
 
         #region CheckListItem Members
