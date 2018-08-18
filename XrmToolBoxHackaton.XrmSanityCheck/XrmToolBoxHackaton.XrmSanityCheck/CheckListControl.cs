@@ -138,6 +138,9 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
                     lvwChecklists.View = View.List;
                     lvwChecklists.Items.AddRange(items);
                     lvwChecklists.Refresh();
+
+                    lvwChecklists.MultiSelect = false;
+                    lvwChecklists.SelectedIndexChanged += LvwChecklists_SelectedIndexChanged;
                     // This code is executed in the main thread
                     //MessageBox.Show($"You are {(Guid)e.Result}");
                 },
@@ -146,6 +149,16 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
                 MessageWidth = 340,
                 MessageHeight = 150
             });
+        }
+
+        private void LvwChecklists_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(lvwChecklists.SelectedItems?.Count > 0)
+            {
+                Models.CheckList checkList = lvwChecklists.SelectedItems[0].Tag as Models.CheckList;
+                grdCheckListItems.DataSource = null;
+
+            }
         }
     }
 }
