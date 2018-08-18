@@ -12,12 +12,14 @@ using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk;
 using McTools.Xrm.Connection;
 using XrmToolBoxHackaton.XrmSanityCheck.Repository;
+using XrmToolBoxHackaton.XrmSanityCheck.Forms;
 
 namespace XrmToolBoxHackaton.XrmSanityCheck
 {
     public partial class CheckListControl : PluginControlBase
     {
         private Settings mySettings;
+        public ICheckListRepository Repository { get; set; }
 
         public CheckListControl()
         {
@@ -81,13 +83,20 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
 
         private void btnLoadLists_Click(object sender, EventArgs args)
         {
+            this.Repository = new FakeCheckListRepository();
+            LoadCheckLists();
+        }
+
+        private void LoadCheckLists()
+        {
+            lvwChecklists.Clear();
+
             WorkAsync(new WorkAsyncInfo
             {
                 Message = "Loading Checklists...",
                 Work = (w, e) =>
                 {
-                    ICheckListRepository repository = new CheckListRepository(this.Service);
-                    IEnumerable<Models.CheckList> lists = repository.GetCheckLists();
+                    IEnumerable<Models.CheckList> lists = this.Repository.GetCheckLists();
 
                     //w.ReportProgress(-1, "I have found the user id");
 
@@ -100,7 +109,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
                 },
                 PostWorkCallBack = e =>
                 {
-                    IEnumerable<Models.CheckList> checkLists =  e.Result as IEnumerable<Models.CheckList>;
+                    IEnumerable<Models.CheckList> checkLists = e.Result as IEnumerable<Models.CheckList>;
                     ListViewItem[] items = checkLists.Select(x => new ListViewItem
                     {
                         Name = x.Id.ToString(),
@@ -141,6 +150,18 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
             ShowHideControls();
         }
 
+        private void btnCreateCheckList_Click(object sender, EventArgs e)
+        {
+            frmCreateCheckList createForm = new frmCreateCheckList();
+            createForm.Plugin = this;
+
+            DialogResult result = createForm.ShowDialog();
+            if(result == DialogResult.OK)
+            {
+                LoadCheckLists();
+            }
+        }
+
         private void ShowHideControls()
         {
             if(lvwChecklists.SelectedItems?.Count == 0)
@@ -152,5 +173,6 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
                 grdCheckListItems.Show();
             }
         }
+
     }
 }

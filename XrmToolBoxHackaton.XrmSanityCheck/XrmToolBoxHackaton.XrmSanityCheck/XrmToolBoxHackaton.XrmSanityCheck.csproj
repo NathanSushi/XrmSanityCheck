@@ -121,6 +121,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\CreateChecklist.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CreateChecklist.Designer.cs">
+      <DependentUpon>CreateChecklist.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\CheckListItem.cs" />
     <Compile Include="Models\CheckList.cs" />
     <Compile Include="CheckListPlugin.cs" />
@@ -143,6 +149,9 @@
   <ItemGroup>
     <EmbeddedResource Include="CheckListControl.resx">
       <DependentUpon>CheckListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CreateChecklist.resx">
+      <DependentUpon>CreateChecklist.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
