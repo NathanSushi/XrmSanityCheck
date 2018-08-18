@@ -145,6 +145,8 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\XrmToolBoxHackaton.XrmSanityCheck.Models.CheckList.datasource" />
+    <None Include="Properties\DataSources\XrmToolBoxHackaton.XrmSanityCheck.Models.CheckListItem.datasource" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CheckListControl.resx">

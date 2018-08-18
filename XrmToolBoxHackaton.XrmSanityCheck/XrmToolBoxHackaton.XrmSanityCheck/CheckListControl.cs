@@ -13,6 +13,7 @@ using Microsoft.Xrm.Sdk;
 using McTools.Xrm.Connection;
 using XrmToolBoxHackaton.XrmSanityCheck.Repository;
 using XrmToolBoxHackaton.XrmSanityCheck.Forms;
+using XrmToolBoxHackaton.XrmSanityCheck.Models;
 
 namespace XrmToolBoxHackaton.XrmSanityCheck
 {
@@ -114,7 +115,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
                     {
                         Name = x.Id.ToString(),
                         Tag = x,
-                        Text = $"{x.Name} ({x.CreatedOn?.ToString("s")})",
+                        Text = $"{x.Name} ({x.CreatedOn?.ToString("d")})",
                         Checked = false
                     }).ToArray();
 
@@ -140,6 +141,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
             {
                 Models.CheckList checkList = lvwChecklists.SelectedItems[0].Tag as Models.CheckList;
                 grdCheckListItems.DataSource = checkList.CheckListItems;
+                grdCheckListItems.DataMemberChanged += GrdCheckListItems_DataMemberChanged;
 
             }
             else
@@ -148,6 +150,11 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
             }
 
             ShowHideControls();
+        }
+
+        private void GrdCheckListItems_DataMemberChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void btnCreateCheckList_Click(object sender, EventArgs e)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.toolStripMenu = new System.Windows.Forms.ToolStrip();
             this.tsbClose = new System.Windows.Forms.ToolStripButton();
             this.tssSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -38,10 +39,19 @@
             this.grpCheckListItems = new System.Windows.Forms.GroupBox();
             this.grdCheckListItems = new System.Windows.Forms.DataGridView();
             this.btnCreateCheckList = new System.Windows.Forms.Button();
+            this.checkListBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.checkListItemBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.isCheckedDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.titleDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.publicIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkedOnDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolStripMenu.SuspendLayout();
             this.grpCheckLists.SuspendLayout();
             this.grpCheckListItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdCheckListItems)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkListBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkListItemBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStripMenu
@@ -131,7 +141,15 @@
             this.grdCheckListItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.grdCheckListItems.AutoGenerateColumns = false;
             this.grdCheckListItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdCheckListItems.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.isCheckedDataGridViewCheckBoxColumn,
+            this.titleDataGridViewTextBoxColumn,
+            this.idDataGridViewTextBoxColumn,
+            this.publicIdDataGridViewTextBoxColumn,
+            this.checkedOnDataGridViewTextBoxColumn});
+            this.grdCheckListItems.DataSource = this.checkListItemBindingSource;
             this.grdCheckListItems.Location = new System.Drawing.Point(6, 46);
             this.grdCheckListItems.Name = "grdCheckListItems";
             this.grdCheckListItems.Size = new System.Drawing.Size(290, 314);
@@ -146,6 +164,46 @@
             this.btnCreateCheckList.Text = "New";
             this.btnCreateCheckList.UseVisualStyleBackColor = true;
             this.btnCreateCheckList.Click += new System.EventHandler(this.btnCreateCheckList_Click);
+            // 
+            // checkListBindingSource
+            // 
+            this.checkListBindingSource.DataSource = typeof(XrmToolBoxHackaton.XrmSanityCheck.Models.CheckList);
+            // 
+            // checkListItemBindingSource
+            // 
+            this.checkListItemBindingSource.DataSource = typeof(XrmToolBoxHackaton.XrmSanityCheck.Models.CheckListItem);
+            // 
+            // isCheckedDataGridViewCheckBoxColumn
+            // 
+            this.isCheckedDataGridViewCheckBoxColumn.DataPropertyName = "IsChecked";
+            this.isCheckedDataGridViewCheckBoxColumn.HeaderText = "IsChecked";
+            this.isCheckedDataGridViewCheckBoxColumn.Name = "isCheckedDataGridViewCheckBoxColumn";
+            // 
+            // titleDataGridViewTextBoxColumn
+            // 
+            this.titleDataGridViewTextBoxColumn.DataPropertyName = "Title";
+            this.titleDataGridViewTextBoxColumn.HeaderText = "Title";
+            this.titleDataGridViewTextBoxColumn.Name = "titleDataGridViewTextBoxColumn";
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            this.idDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // publicIdDataGridViewTextBoxColumn
+            // 
+            this.publicIdDataGridViewTextBoxColumn.DataPropertyName = "PublicId";
+            this.publicIdDataGridViewTextBoxColumn.HeaderText = "PublicId";
+            this.publicIdDataGridViewTextBoxColumn.Name = "publicIdDataGridViewTextBoxColumn";
+            this.publicIdDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // checkedOnDataGridViewTextBoxColumn
+            // 
+            this.checkedOnDataGridViewTextBoxColumn.DataPropertyName = "CheckedOn";
+            this.checkedOnDataGridViewTextBoxColumn.HeaderText = "CheckedOn";
+            this.checkedOnDataGridViewTextBoxColumn.Name = "checkedOnDataGridViewTextBoxColumn";
             // 
             // CheckListControl
             // 
@@ -162,6 +220,8 @@
             this.grpCheckLists.ResumeLayout(false);
             this.grpCheckListItems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grdCheckListItems)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkListBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkListItemBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -178,5 +238,12 @@
         private System.Windows.Forms.GroupBox grpCheckListItems;
         private System.Windows.Forms.DataGridView grdCheckListItems;
         private System.Windows.Forms.Button btnCreateCheckList;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn isCheckedDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn titleDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn publicIdDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn checkedOnDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource checkListItemBindingSource;
+        private System.Windows.Forms.BindingSource checkListBindingSource;
     }
 }

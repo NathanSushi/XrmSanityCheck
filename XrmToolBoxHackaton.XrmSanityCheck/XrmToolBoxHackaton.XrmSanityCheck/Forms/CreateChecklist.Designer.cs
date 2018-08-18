@@ -39,7 +39,7 @@
             // 
             this.txtName.Location = new System.Drawing.Point(95, 53);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(327, 20);
+            this.txtName.Size = new System.Drawing.Size(227, 20);
             this.txtName.TabIndex = 0;
             this.txtName.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
@@ -68,14 +68,14 @@
             this.ddlTemplate.FormattingEnabled = true;
             this.ddlTemplate.Location = new System.Drawing.Point(95, 85);
             this.ddlTemplate.Name = "ddlTemplate";
-            this.ddlTemplate.Size = new System.Drawing.Size(327, 21);
+            this.ddlTemplate.Size = new System.Drawing.Size(227, 21);
             this.ddlTemplate.TabIndex = 4;
             // 
             // btnCreate
             // 
             this.btnCreate.Location = new System.Drawing.Point(16, 131);
             this.btnCreate.Name = "btnCreate";
-            this.btnCreate.Size = new System.Drawing.Size(406, 23);
+            this.btnCreate.Size = new System.Drawing.Size(306, 23);
             this.btnCreate.TabIndex = 5;
             this.btnCreate.Text = "Create";
             this.btnCreate.UseVisualStyleBackColor = true;
@@ -85,7 +85,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 171);
+            this.ClientSize = new System.Drawing.Size(334, 171);
             this.Controls.Add(this.btnCreate);
             this.Controls.Add(this.ddlTemplate);
             this.Controls.Add(this.label2);
