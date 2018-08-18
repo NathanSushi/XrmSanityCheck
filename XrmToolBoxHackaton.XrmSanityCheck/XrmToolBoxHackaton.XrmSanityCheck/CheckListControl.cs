@@ -86,7 +86,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
                 Message = "Loading Checklists...",
                 Work = (w, e) =>
                 {
-                    ICheckListRepository repository = new FakeCheckListRepository();
+                    ICheckListRepository repository = new CheckListRepository(this.Service);
                     IEnumerable<Models.CheckList> lists = repository.GetCheckLists();
 
                     //w.ReportProgress(-1, "I have found the user id");

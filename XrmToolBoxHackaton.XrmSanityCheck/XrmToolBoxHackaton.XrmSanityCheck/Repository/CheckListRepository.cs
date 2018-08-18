@@ -15,12 +15,22 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
     {
         private IOrganizationService Service;
         private string prefix = "xsc";
-        private string webResourceName = "xsc_xrmsanitycheck";
+        private string webResourceName = "xsc_xrmsanitycheck.json";
+
+        public CheckListRepository(IOrganizationService service)
+        {
+            this.Service = service;
+        }
 
         public IEnumerable<CheckList> GetCheckLists()
         {
             Entity webresource = getWebResource();
-            return JsonConvert.DeserializeObject<List<CheckList>>(webresource.GetAttributeValue<string>("Content"));
+            var content = Convert.FromBase64String(webresource.GetAttributeValue<string>("content"));
+            return JsonConvert.DeserializeObject<List<CheckList>>(Encoding.UTF8.GetString(content));
+            //foreach(CheckList checkList in allCheckLists)
+            //{
+            //    if(!checkList.CheckListItems.Any())
+            //}
         }
 
         public Guid CreateCheckList(CheckList list)
@@ -82,13 +92,13 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
                 });
             defaultCheckLists.Add(firstCheckList);
 
+            var json = JsonConvert.SerializeObject(defaultCheckLists);
             Entity webResource = new Entity("webresource");
-            webResource["Content"] = JsonConvert.SerializeObject(defaultCheckLists);
-            webResource["DisplayName"] = "XrmSanityCheck Data";
-            webResource["Description"] = "This is a JSON file that stores your data for the XrmSanityCheck tool";
-            webResource["Name"] = webResourceName;
-            webResource["LogicalName"] = "webresource";
-            webResource["WebResourceType"] = new OptionSetValue(3); //JS
+            webResource["content"] = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
+            webResource["displayname"] = "XrmSanityCheck Data";
+            webResource["description"] = "This is a JSON file that stores your data for the XrmSanityCheck tool";
+            webResource["name"] = webResourceName;
+            webResource["webresourcetype"] = new OptionSetValue(3); //JS
 
             Guid webResourceId = Service.Create(webResource);
             if (webResourceId != null) return webResource;
@@ -98,8 +108,8 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
         private Entity getWebResource()
         {
             QueryExpression query = new QueryExpression("webresource");
-            query.Criteria.AddCondition("Name", ConditionOperator.Equal, webResourceName);
-            query.ColumnSet = new ColumnSet(true);
+            query.Criteria.AddCondition("name", ConditionOperator.Equal, webResourceName);
+            query.ColumnSet = new ColumnSet("content");
             EntityCollection results = Service.RetrieveMultiple(query);
             
             if (results.Entities.Any())
