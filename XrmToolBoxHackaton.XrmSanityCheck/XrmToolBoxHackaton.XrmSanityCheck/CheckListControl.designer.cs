@@ -37,6 +37,7 @@
             this.btnLoadLists = new System.Windows.Forms.Button();
             this.grpCheckListItems = new System.Windows.Forms.GroupBox();
             this.grdCheckListItems = new System.Windows.Forms.DataGridView();
+            this.btnCreateCheckList = new System.Windows.Forms.Button();
             this.toolStripMenu.SuspendLayout();
             this.grpCheckLists.SuspendLayout();
             this.grpCheckListItems.SuspendLayout();
@@ -92,6 +93,7 @@
             // 
             this.grpCheckLists.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.grpCheckLists.Controls.Add(this.btnCreateCheckList);
             this.grpCheckLists.Controls.Add(this.btnLoadLists);
             this.grpCheckLists.Controls.Add(this.lvwChecklists);
             this.grpCheckLists.Location = new System.Drawing.Point(3, 28);
@@ -135,6 +137,16 @@
             this.grdCheckListItems.Size = new System.Drawing.Size(290, 314);
             this.grdCheckListItems.TabIndex = 0;
             // 
+            // btnCreateCheckList
+            // 
+            this.btnCreateCheckList.Location = new System.Drawing.Point(67, 16);
+            this.btnCreateCheckList.Name = "btnCreateCheckList";
+            this.btnCreateCheckList.Size = new System.Drawing.Size(75, 23);
+            this.btnCreateCheckList.TabIndex = 7;
+            this.btnCreateCheckList.Text = "New";
+            this.btnCreateCheckList.UseVisualStyleBackColor = true;
+            this.btnCreateCheckList.Click += new System.EventHandler(this.btnCreateCheckList_Click);
+            // 
             // CheckListControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -165,5 +177,6 @@
         private System.Windows.Forms.Button btnLoadLists;
         private System.Windows.Forms.GroupBox grpCheckListItems;
         private System.Windows.Forms.DataGridView grdCheckListItems;
+        private System.Windows.Forms.Button btnCreateCheckList;
     }
 }

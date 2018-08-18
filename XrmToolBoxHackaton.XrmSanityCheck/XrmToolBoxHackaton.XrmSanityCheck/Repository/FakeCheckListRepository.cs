@@ -9,37 +9,11 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
 {
     public class FakeCheckListRepository : ICheckListRepository
     {
-        private IEnumerable<Models.CheckList> _checkLists = new List<Models.CheckList>();
-        private IEnumerable<Models.CheckListItem> _checkListItems = new List<Models.CheckListItem>();
+        private List<Models.CheckList> _checkLists = new List<Models.CheckList>();
 
-        public Guid CreateCheckList(Models.CheckList list)
+        public FakeCheckListRepository()
         {
-            throw new NotImplementedException();
-        }
-
-        public Guid CreateCheckListItem(CheckListItem item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteCheckList(Models.CheckList list)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteCheckListItem(CheckListItem item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Models.CheckList> GetCheckListItems(Guid checklistItemId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<Models.CheckList> GetCheckLists()
-        {
-            return new List<Models.CheckList>()
+            _checkLists = new List<Models.CheckList>()
             {
                 new Models.CheckList
                 {
@@ -47,7 +21,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
                     Name = "Sanity Check",
                     CreatedOn = DateTime.Now,
                     ModifiedOn = DateTime.Now,
-                    CheckListItems=
+                    CheckListItems= new List<CheckListItem>()
                     {
                         new CheckListItem
                         {
@@ -73,6 +47,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
                     Name = "Post GO Live Check 31/07",
                     CreatedOn = DateTime.Now.AddDays(-1),
                     ModifiedOn = DateTime.Now.AddDays(-1),
+                    CheckListItems = new List<CheckListItem>()
                 },
                 new Models.CheckList
                 {
@@ -80,8 +55,39 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
                     Name = "Daily Sanity Check",
                     CreatedOn = DateTime.Now.AddDays(-2),
                     ModifiedOn = DateTime.Now.AddDays(-2),
+                    CheckListItems = new List<CheckListItem>()
                 }
             };
+        }
+        public Guid CreateCheckList(Models.CheckList list)
+        {
+            _checkLists.Add(list);
+            return list.Id.Value;
+        }
+
+        public Guid CreateCheckListItem(CheckListItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCheckList(Models.CheckList list)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCheckListItem(CheckListItem item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Models.CheckList> GetCheckListItems(Guid checklistItemId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Models.CheckList> GetCheckLists()
+        {
+            return _checkLists;
         }
 
         public void UpdateCheckList(Models.CheckList list)
