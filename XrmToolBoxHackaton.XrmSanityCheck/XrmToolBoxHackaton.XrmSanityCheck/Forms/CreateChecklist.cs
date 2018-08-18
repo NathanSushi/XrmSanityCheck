@@ -18,12 +18,12 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Forms
         public frmCreateCheckList()
         {
             InitializeComponent();
+            EnableDisableControls();
         }
 
         private void EnableDisableControls()
         {
-            if(string.IsNullOrEmpty(txtName.Text)
-                || ddlTemplate.SelectedItem == null)
+            if(string.IsNullOrEmpty(txtName.Text)) //|| ddlTemplate.SelectedItem == null
             {
                 btnCreate.Enabled = false;
             }
@@ -35,7 +35,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Forms
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            EnableDisableControls();
         }
 
         private void label2_Click(object sender, EventArgs e)
