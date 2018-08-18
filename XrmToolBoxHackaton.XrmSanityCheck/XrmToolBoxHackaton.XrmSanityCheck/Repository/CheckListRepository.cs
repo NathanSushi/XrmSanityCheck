@@ -37,6 +37,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
         {
             this.checkLists.Add(list);
             updateWebResource();
+            publishWebResource();
             return list.Id.Value;
         }
         public void UpdateCheckList(CheckList list)
@@ -62,6 +63,13 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
         public void DeleteCheckListItem(CheckListItem item)
         {
             throw new NotImplementedException();
+        }
+
+        public void UpdateAll(List<CheckList> lists)
+        {
+            this.checkLists = lists;
+            updateWebResource();
+            publishWebResource();
         }
 
         private Entity createWebResource()
@@ -96,8 +104,6 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
             Entity updatedWebResource = new Entity(this.webResourceEntity.LogicalName) { Id = this.webResourceEntity.Id };
             updatedWebResource["content"] = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
             Service.Update(updatedWebResource);
-
-            publishWebResource();
         }
 
         private void publishWebResource()
