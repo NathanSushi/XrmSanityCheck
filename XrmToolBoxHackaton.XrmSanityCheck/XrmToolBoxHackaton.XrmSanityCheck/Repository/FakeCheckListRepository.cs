@@ -90,6 +90,11 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
             return _checkLists;
         }
 
+        public void UpdateAll(List<CheckList> lists)
+        {
+            this._checkLists = lists;
+        }
+
         public void UpdateCheckList(Models.CheckList list)
         {
             throw new NotImplementedException();

@@ -15,6 +15,8 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
         Guid CreateCheckList(Models.CheckList list);
         void UpdateCheckList(Models.CheckList list);
         void DeleteCheckList(Models.CheckList list);
+
+        void UpdateAll(List<CheckList> lists);
         #endregion
 
         #region CheckListItem Members

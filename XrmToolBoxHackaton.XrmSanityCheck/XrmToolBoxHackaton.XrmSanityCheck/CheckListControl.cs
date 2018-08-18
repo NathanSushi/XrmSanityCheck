@@ -22,10 +22,31 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
         private Settings mySettings;
         public ICheckListRepository Repository { get; set; }
 
+        private List<CheckList> _checklists = new List<CheckList>();
+        private BindingSource _source = new BindingSource();
+
         public CheckListControl()
         {
             InitializeComponent();
             ShowHideControls();
+
+
+            grdCheckListItems.DataMemberChanged += GrdCheckListItems_DataMemberChanged;
+            grdCheckListItems.CellValueChanged += GrdCheckListItems_CellValueChanged;
+            grdCheckListItems.UserAddedRow += GrdCheckListItems_UserAddedRow;
+            grdCheckListItems.MouseUp += GrdCheckListItems_MouseUp;
+        }
+
+        private void GrdCheckListItems_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                var hitTestInfo = grdCheckListItems.HitTest(e.X, e.Y);
+                if (hitTestInfo.Type == DataGridViewHitTestType.Cell)
+                    grdCheckListItems.BeginEdit(true);
+                else
+                    grdCheckListItems.EndEdit();
+            }
         }
 
         private void MyPluginControl_Load(object sender, EventArgs e)
@@ -110,8 +131,8 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
                 },
                 PostWorkCallBack = e =>
                 {
-                    IEnumerable<Models.CheckList> checkLists = e.Result as IEnumerable<Models.CheckList>;
-                    ListViewItem[] items = checkLists.Select(x => new ListViewItem
+                    _checklists = e.Result as List<Models.CheckList>;
+                    ListViewItem[] items = _checklists.Select(x => new ListViewItem
                     {
                         Name = x.Id.ToString(),
                         Tag = x,
@@ -125,8 +146,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
 
                     lvwChecklists.MultiSelect = false;
                     lvwChecklists.SelectedIndexChanged += LvwChecklists_SelectedIndexChanged;
-                    // This code is executed in the main thread
-                    //MessageBox.Show($"You are {(Guid)e.Result}");
+
                 },
                 AsyncArgument = null,
                 // Progress information panel size
@@ -140,9 +160,13 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
             if(lvwChecklists.SelectedItems?.Count > 0)
             {
                 Models.CheckList checkList = lvwChecklists.SelectedItems[0].Tag as Models.CheckList;
-                grdCheckListItems.DataSource = checkList.CheckListItems;
-                grdCheckListItems.DataMemberChanged += GrdCheckListItems_DataMemberChanged;
+                var list = _checklists.FirstOrDefault(x => x.Id == checkList.Id);
 
+                 _source = new BindingSource();
+                _source.DataSource = list?.CheckListItems;
+
+                grdCheckListItems.DataSource = _source;
+                grdCheckListItems.Refresh();
             }
             else
             {
@@ -150,6 +174,17 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
             }
 
             ShowHideControls();
+        }
+
+        private void GrdCheckListItems_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void GrdCheckListItems_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            //CheckListItem listItem = grdCheckListItems.Rows[e.RowIndex].DataBoundItem as CheckListItem;
+            //this.Repository.UpdateCheckListItem(listItem);
         }
 
         private void GrdCheckListItems_DataMemberChanged(object sender, EventArgs e)
@@ -174,12 +209,28 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
             if(lvwChecklists.SelectedItems?.Count == 0)
             {
                 grdCheckListItems.Hide();
+                btnSave.Hide();
             }
             else
             {
                 grdCheckListItems.Show();
+                btnSave.Show();
             }
         }
 
+        private void btnCreateCheckListItem_Click(object sender, EventArgs e)
+        {
+            _source.Add(new CheckListItem
+            {
+                Title = ""
+            });
+
+            grdCheckListItems.Refresh();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            this.Repository.UpdateAll(this._checklists);
+        }
     }
 }
