@@ -18,7 +18,6 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
         #endregion
 
         #region CheckListItem Members
-        IEnumerable<Models.CheckList> GetCheckListItems(Guid checklistItemId);
         Guid CreateCheckListItem(CheckListItem item);
         void UpdateCheckListItem(CheckListItem item);
         void DeleteCheckListItem(CheckListItem item);

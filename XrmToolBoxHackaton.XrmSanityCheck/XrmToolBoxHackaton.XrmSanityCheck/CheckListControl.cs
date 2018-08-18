@@ -57,13 +57,14 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
         {
             WorkAsync(new WorkAsyncInfo
             {
-                Message = "Getting accounts",
+                Message = "Getting Check Lists",
                 Work = (worker, args) =>
                 {
                     args.Result = Service.RetrieveMultiple(new QueryExpression("account")
                     {
                         TopCount = 50
                     });
+                    
                 },
                 PostWorkCallBack = (args) =>
                 {

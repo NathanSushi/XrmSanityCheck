@@ -12,5 +12,6 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Models
         public string Name { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
+        public List<CheckListItem> CheckListItems { get; set; }
     }
 }
