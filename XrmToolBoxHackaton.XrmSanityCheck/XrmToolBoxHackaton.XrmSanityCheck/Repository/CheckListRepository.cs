@@ -42,11 +42,15 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
         }
         public void UpdateCheckList(CheckList list)
         {
-            throw new NotImplementedException();
+            CheckList updatedItem = this.checkLists.First(x => x.Id == list.Id);
+            updatedItem = list;
+            updateWebResource();
         }
         public void DeleteCheckList(CheckList list)
         {
-            throw new NotImplementedException();
+            this.checkLists.Remove(list);
+            updateWebResource();
+            publishWebResource();
         }
 
         public Guid CreateCheckListItem(CheckListItem item)
@@ -62,7 +66,8 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
         }
         public void DeleteCheckListItem(CheckListItem item)
         {
-            throw new NotImplementedException();
+            this.checkLists.First(x => x.CheckListItems.Any(y => y.Id == item.Id)).CheckListItems.Remove(item);
+            updateWebResource();
         }
 
         public void UpdateAll(List<CheckList> lists)
