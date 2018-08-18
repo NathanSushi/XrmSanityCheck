@@ -22,6 +22,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
         public CheckListControl()
         {
             InitializeComponent();
+            ShowHideControls();
         }
 
         private void MyPluginControl_Load(object sender, EventArgs e)
@@ -50,35 +51,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
         {
             // The ExecuteMethod method handles connecting to an
             // organization if XrmToolBox is not yet connected
-            ExecuteMethod(GetAccounts);
-        }
-
-        private void GetAccounts()
-        {
-            WorkAsync(new WorkAsyncInfo
-            {
-                Message = "Getting Check Lists",
-                Work = (worker, args) =>
-                {
-                    args.Result = Service.RetrieveMultiple(new QueryExpression("account")
-                    {
-                        TopCount = 50
-                    });
-                    
-                },
-                PostWorkCallBack = (args) =>
-                {
-                    if (args.Error != null)
-                    {
-                        MessageBox.Show(args.Error.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    var result = args.Result as EntityCollection;
-                    if (result != null)
-                    {
-                        MessageBox.Show($"Found {result.Entities.Count} accounts");
-                    }
-                }
-            });
+            //ExecuteMethod(GetAccounts);
         }
 
         /// <summary>
@@ -157,8 +130,26 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
             if(lvwChecklists.SelectedItems?.Count > 0)
             {
                 Models.CheckList checkList = lvwChecklists.SelectedItems[0].Tag as Models.CheckList;
-                grdCheckListItems.DataSource = null;
+                grdCheckListItems.DataSource = checkList.CheckListItems;
 
+            }
+            else
+            {
+
+            }
+
+            ShowHideControls();
+        }
+
+        private void ShowHideControls()
+        {
+            if(lvwChecklists.SelectedItems?.Count == 0)
+            {
+                grdCheckListItems.Hide();
+            }
+            else
+            {
+                grdCheckListItems.Show();
             }
         }
     }

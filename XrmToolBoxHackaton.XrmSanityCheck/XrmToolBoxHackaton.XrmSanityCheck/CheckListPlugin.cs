@@ -17,7 +17,7 @@ namespace XrmToolBoxHackaton.XrmSanityCheck
         ExportMetadata("BackgroundColor", "Transparent"),
         ExportMetadata("PrimaryFontColor", "Black"),
         ExportMetadata("SecondaryFontColor", "Gray")]
-    public class CheckList : PluginBase
+    public class CheckListPlugin : PluginBase
     {
         public override IXrmToolBoxPluginControl GetControl()
         {

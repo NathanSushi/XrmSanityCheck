@@ -123,7 +123,7 @@
   <ItemGroup>
     <Compile Include="Models\CheckListItem.cs" />
     <Compile Include="Models\CheckList.cs" />
-    <Compile Include="CheckList.cs" />
+    <Compile Include="CheckListPlugin.cs" />
     <Compile Include="CheckListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -147,10 +147,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>if $(ConfigurationName) == Debug (
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName) == Debug (
   IF NOT EXIST Plugins mkdir Plugins
   move /Y XrmToolBoxHackaton.*.dll Plugins
-)</PreBuildEvent>
+)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

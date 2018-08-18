@@ -46,7 +46,26 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Repository
                     Id = Guid.NewGuid(),
                     Name = "Sanity Check",
                     CreatedOn = DateTime.Now,
-                    ModifiedOn = DateTime.Now
+                    ModifiedOn = DateTime.Now,
+                    CheckListItems=
+                    {
+                        new CheckListItem
+                        {
+                            CheckedOn =DateTime.Now,
+                            IsChecked = true,
+                            Id = Guid.NewGuid(),
+                            PublicId= Guid.NewGuid(),
+                            Title = "All custom entities have icons"
+                        },
+                        new CheckListItem
+                        {
+                            CheckedOn =DateTime.Now,
+                            IsChecked = false,
+                            Id = Guid.NewGuid(),
+                            PublicId= Guid.NewGuid(),
+                            Title = "Enable auditing on required entities"
+                        }
+                    }
                 },
                 new Models.CheckList
                 {
