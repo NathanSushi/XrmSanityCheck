@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("XrmToolBoxHackaton.XrmSanityCheck")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("XrmToolboxHackaton 2018 - Pieter Vandenbergh, Nathan Vanblaere")]
+[assembly: AssemblyCompany("XrmToolboxHackaton 2018 - Pieter Van den Bergh, Nathan Vanblaere")]
 [assembly: AssemblyProduct("XrmToolBoxHackaton.XrmSanityCheck")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
