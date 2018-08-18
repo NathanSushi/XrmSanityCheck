@@ -13,5 +13,6 @@ namespace XrmToolBoxHackaton.XrmSanityCheck.Models
         public string Title { get; set; }
         public bool IsChecked { get; set; }
         public DateTime? CheckedOn { get; set; }
+        public Guid CheckListId { get; set; }
     }
 }
